@@ -1,5 +1,6 @@
 package com.fundatec.pagamento.service;
 
+import com.fundatec.pagamento.controller.resources.PagamentoRequest;
 import com.fundatec.pagamento.domain.Pagamento;
 import com.fundatec.pagamento.repository.PagamentoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +18,11 @@ public class PagamentoService {
         return pagamentoRepository.findAll();
     }
 
-    public Pagamento save(Pagamento pagamento) {
-        return pagamentoRepository.saveAndFlush(pagamento);
+    public Pagamento save(PagamentoRequest pagamentoRequest) {
+        Pagamento pagamentoToSave = pagamentoRequest.toPagamento();
+        pagamentoToSave.setStatus("ABERTO");
+
+        return pagamentoRepository.saveAndFlush(pagamentoToSave);
     }
 
     public Pagamento findById(Long id) {

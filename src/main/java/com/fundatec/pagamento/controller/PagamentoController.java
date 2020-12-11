@@ -1,18 +1,15 @@
 package com.fundatec.pagamento.controller;
 
 import com.fundatec.pagamento.controller.resources.PagamentoProjection;
+import com.fundatec.pagamento.controller.resources.PagamentoRequest;
 import com.fundatec.pagamento.domain.Pagamento;
-import com.fundatec.pagamento.repository.PagamentoRepository;
 import com.fundatec.pagamento.service.PagamentoService;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/pagamentos")
@@ -32,6 +29,11 @@ public class PagamentoController {
             novoResultado.add(pagamentoProjection);
         }
 
-        return new ResponseEntity<List<PagamentoProjection>>(novoResultado, HttpStatus.OK);
+        return new ResponseEntity<>(novoResultado, HttpStatus.OK);
+    }
+
+    @PostMapping
+    public ResponseEntity<Pagamento> save(@RequestBody PagamentoRequest pagamentoRequest) {
+        return new ResponseEntity<>(pagamentoService.save(pagamentoRequest), HttpStatus.OK);
     }
 }
